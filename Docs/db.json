@@ -1,0 +1,176 @@
+{
+  "scan_id": {
+    "type": "string",
+    "description": "Identifiant unique du scan"
+  },
+  "timestamp": {
+    "type": "string (ISO 8601)",
+    "description": "Date et heure du scan"
+  },
+  "project_name": {
+    "type": "string",
+    "description": "Nom du projet analysé"
+  },
+  "scanned_by": {
+    "type": "string",
+    "description": "Nom ou identifiant de la personne ayant lancé le scan"
+  },
+  "target_type": {
+    "type": "string",
+    "description": "Type de cible analysée: 'repository', 'file', ou 'custom_files'"
+  },
+  "repo_name": {
+    "type": "string",
+    "description": "Nom ou URL du dépôt "
+  },
+  "target_files": {
+    "type": "array[string]",
+    "description": "Liste des fichiers spécifiques à analyser"
+  },
+  "scan_options": {
+    "type": "object",
+    "description": "Paramètres de configuration du scan",
+    "properties": {
+      "use_ai_assistance": {
+        "type": "boolean",
+        "description": "Utilisation d'une IA pour aider l’analyse"
+      },
+      "max_depth": {
+        "type": "integer",
+        "description": "Profondeur maximale de scan dans les sous-dossiers"
+      },
+      "follow_symlinks": {
+        "type": "boolean",
+        "description": "Faut-il suivre les liens symboliques"
+      }
+    }
+  },
+  "analysis": {
+    "type": "object",
+    "description": "Résultats de l’analyse",
+    "properties": {
+      "status": {
+        "type": "string",
+        "description": "État du scan : 'completed', 'in_progress', ou 'failed'"
+      },
+      "summary": {
+        "type": "object",
+        "properties": {
+          "total_files": {
+            "type": "integer",
+            "description": "Nombre total de fichiers scannés"
+          },
+          "files_with_vulnerabilities": {
+            "type": "integer",
+            "description": "Nombre de fichiers contenant des failles"
+          },
+          "vulnerabilities_found": {
+            "type": "integer",
+            "description": "Nombre total de vulnérabilités détectées"
+          }
+        }
+      },
+      "vulnerabilities": {
+        "type": "array",
+        "description": "Liste des vulnérabilités détectées",
+        "items": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "Chemin du fichier concerné"
+            },
+            "line": {
+              "type": "integer",
+              "description": "Numéro de ligne de la vulnérabilité"
+            },
+            "type": {
+              "type": "string",
+              "description": "Type de vulnérabilité"
+            },
+            "severity": {
+              "type": "string",
+              "description": "Gravité : 'low', 'medium', 'high', ou 'critical'"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description de la faille"
+            },
+            "recommendation": {
+              "type": "string",
+              "description": "Conseil pour corriger la faille"
+            }
+          }
+        }
+      }
+    }
+  },
+  "ai_comments": {
+    "type": "string",
+    "description": "Résumé ou retour généré par l’IA (facultatif)"
+  },
+  "scan_version": {
+    "type": "string",
+    "description": "Version du moteur d’analyse utilisé"
+  },
+  "dependencies": {
+    "type": "array",
+    "description": "Liste des dépendances avec failles (facultatif)",
+    "items": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nom de la dépendance"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version utilisée"
+        },
+        "vulnerability": {
+          "type": "object",
+          "properties": {
+            "cve_id": {
+              "type": "string",
+              "description": "Identifiant CVE de la faille"
+            },
+            "severity": {
+              "type": "string",
+              "description": "Gravité"
+            },
+            "description": {
+              "type": "string",
+              "description": "Détail de la faille"
+            },
+            "recommendation": {
+              "type": "string",
+              "description": "Solution proposée"
+            }
+          }
+        }
+      }
+    }
+  },
+  "notes": {
+    "type": "string",
+    "description": "Commentaire libre ajouté par l'utilisateur"
+  },
+  "auth_context": {
+    "type": "object",
+    "description": "Contexte utilisateur (si multi-utilisateur)",
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "description": "ID de l’utilisateur"
+      },
+      "user_role": {
+        "type": "string",
+        "description": "Rôle de l’utilisateur (admin, dev, etc.)"
+      },
+      "session_id": {
+        "type": "string",
+        "description": "Session en cours"
+      }
+    }
+  }
+}
