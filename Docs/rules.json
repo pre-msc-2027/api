@@ -1,0 +1,40 @@
+{
+  "rule_id": {
+    "type": "string",
+    "description": "Identifiant unique de la règle"
+  },
+  "name": {
+    "type": "string",
+    "description": "Nom de la règle"
+  },
+  "description": {
+    "type": "string",
+    "description": "Description fonctionnelle de la règle"
+  },
+  "tags": {
+    "type": "array[string]",
+    "description": "Liste de mots-clés pour catégoriser la règle"
+  },
+  "parameters": {
+    "type": "array[object]",
+    "description": "Liste des paramètres configurables pour cette règle",
+    "object_structure": {
+      "name": {
+        "type": "string",
+        "description": "Nom du paramètre"
+      },
+      "type": {
+        "type": "string",
+        "description": "Type de donnée du paramètre (string, int, bool, etc.)"
+      },
+      "default": {
+        "type": "any",
+        "description": "Valeur par défaut du paramètre"
+      },
+      "description": {
+        "type": "string",
+        "description": "Ce que ce paramètre permet de modifier"
+      }
+    }
+  }
+}
