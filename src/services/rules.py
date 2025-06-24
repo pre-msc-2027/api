@@ -1,3 +1,4 @@
+from repositories.rules import RuleRepository
 from src.generics import Service
 from src.repositories import RulesRepository
 from src.exceptions import not_found
@@ -11,6 +12,9 @@ class RulesService(Service):
 
     rules_repository: RulesRepository
 
+    def __init__(self):
+        rules_repository= RuleRepository()
+
     async def get_rule(self, rule_id: PydanticObjectId) -> RuleOut:
         rule = await self.rules_repository.get_rule_by_id(rule_id)
         if rule is None:
@@ -18,7 +22,7 @@ class RulesService(Service):
         return RuleOut.model_validate(rule)
 
     async def create_rule(self, rule_create: RuleCreate) -> RuleOut:
-        # Create Beanie model from schema
+        
         rule_model = models.Rule(**rule_create.model_dump())
         created = await self.rules_repository.create(rule_model)
         return RuleOut.model_validate(created)
