@@ -8,5 +8,5 @@ class RuleBase(BaseModel):
 class RuleCreate(RuleBase):
     pass
 
-class RuleDbId(RuleBase):
+class RuleOut(RuleBase):
     id: str  # MongoDB ID
