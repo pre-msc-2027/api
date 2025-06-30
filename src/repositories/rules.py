@@ -1,18 +1,21 @@
+from generics import Repository
 from beanie import PydanticObjectId
-from typing import Optional
-
+from typing import Optional, List
 from src import models
 
 
-class ruleRepository:
+class RulesRepository(Repository):
 
-    async def get_rule_by_id(self, rule_id: PydanticObjectId) -> Optional[models.rule]:
-        return await models.rule.get(rule_id)
+    def __init__(self):
+        super().__init__(models.Rule)
 
-    async def create_rule(self, rule: models.rule) -> models.rule:
+    async def get_rule_by_id(self, rule_id: PydanticObjectId) -> Optional[models.Rule]:
+        return await models.Rule.get(rule_id)
+
+    async def create(self, rule: models.Rule) -> models.Rule:
         await rule.insert()
         return rule
 
-    async def get_rules(self) -> list[PydanticObjectId]:
-        rules = await models.rule.find_all().to_list()
+    async def get_all(self) -> List[PydanticObjectId]:
+        rules = await models.Rule.find_all().to_list()
         return [rule.id for rule in rules]

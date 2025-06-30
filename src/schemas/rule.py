@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class RuleBase(BaseModel):
     rule_id: int
@@ -8,5 +8,9 @@ class RuleBase(BaseModel):
 class RuleCreate(RuleBase):
     pass
 
-class RuleDbId(RuleBase):
-    id: str  # MongoDB ID
+class RuleOut(RuleBase):
+    id: str = Field(..., alias="_id")  # Automatically maps MongoDB's `_id` to `id`
+
+    class Config:
+        allow_population_by_field_name = True  # Enables FastAPI to return `id` instead of `_id`
+        orm_mode = True
