@@ -4,7 +4,10 @@ from typing import Optional, List
 from src import models
 
 
-class RuleRepository(Repository):
+class RulesRepository(Repository):
+
+    def __init__(self):
+        super().__init__(models.Rule)
 
     async def get_rule_by_id(self, rule_id: PydanticObjectId) -> Optional[models.Rule]:
         return await models.Rule.get(rule_id)
