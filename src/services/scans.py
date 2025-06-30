@@ -1,19 +1,17 @@
-from repositories.scans import ScansRepository
+from src.repositories.scans import ScansRepository
 from src.generics import Service
-from src.repositories import ScansRepository
 from src.exceptions import not_found
 from src.schemas.scan import ScanCreate, ScanOut
 from src import models
 from beanie import PydanticObjectId
 from typing import List
+from utils.counter import get_next_sequence
 
 
 class ScansService(Service):
 
-    scans_repository: ScansRepository
-
     def __init__(self):
-        scans_repository= ScansRepository()
+        self.scans_repository= ScansRepository()
 
     async def get_scan(self, scan_id: PydanticObjectId) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -23,7 +21,8 @@ class ScansService(Service):
 
     async def create_scan(self, scan_create: ScanCreate) -> ScanOut:
         
-        scan_model = models.scan(**scan_create.model_dump())
+        scan_id = await get_next_sequence("scan_id")
+        scan_model = models.Scan(scan_id=scan_id, **scan_create.model_dump())
         created = await self.scans_repository.create(scan_model)
         return ScanOut.model_validate(created)
 

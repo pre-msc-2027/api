@@ -2,13 +2,13 @@ from typing import List
 from pydantic import BaseModel, Field
 
 class ScanBase(BaseModel):
-    scan_id: int
     rules_id: List[int]
 
 class ScanCreate(ScanBase):
     pass
 
 class ScanOut(ScanBase):
+    scan_id: int
     id: str = Field(..., alias="_id")  # Automatically maps MongoDB's `_id` to `id`
 
     class Config:

@@ -3,7 +3,6 @@ from beanie import PydanticObjectId
 from typing import Optional, List
 from src import models
 
-
 class ScansRepository(Repository):
 
     def __init__(self):

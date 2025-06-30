@@ -1,6 +1,5 @@
-from repositories.rules import RulesRepository
+from src.repositories.rules import RulesRepository
 from src.generics import Service
-from src.repositories import RulesRepository
 from src.exceptions import not_found
 from src.schemas.rule import RuleCreate, RuleOut
 from src import models
@@ -10,10 +9,8 @@ from typing import List
 
 class RulesService(Service):
 
-    rules_repository: RulesRepository
-
     def __init__(self):
-        rules_repository= RulesRepository()
+        self.rules_repository= RulesRepository()
 
     async def get_rule(self, rule_id: PydanticObjectId) -> RuleOut:
         rule = await self.rules_repository.get_rule_by_id(rule_id)
