@@ -4,7 +4,7 @@ from typing import Optional, List
 from src import models
 
 
-class RuleRepository(Repository):
+class RulesRepository(Repository):
 
     def __init__(self):
         super().__init__(models.Rule)

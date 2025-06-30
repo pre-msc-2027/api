@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from typing import List
-
 from src.schemas import RuleCreate, RuleOut 
 from src.services import RulesService
 from src.exceptions import not_found
