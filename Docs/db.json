@@ -15,17 +15,9 @@
     "type": "string",
     "description": "Nom ou identifiant de la personne ayant lancé le scan"
   },
-  "target_type": {
-    "type": "string",
-    "description": "Type de cible analysée: 'repository', 'file', ou 'custom_files'"
-  },
-  "repo_name": {
+  "repo_url": {
     "type": "string",
     "description": "Nom ou URL du dépôt "
-  },
-  "target_files": {
-    "type": "array[string]",
-    "description": "Liste des fichiers spécifiques à analyser"
   },
   "scan_options": {
     "type": "object",
@@ -42,6 +34,18 @@
       "follow_symlinks": {
         "type": "boolean",
         "description": "Faut-il suivre les liens symboliques"
+      },
+      "target_type": {
+        "type": "string",
+        "description": "Type de cible analysée: 'repository', 'file', ou 'custom_files'"
+      },
+      "target_files": {
+        "type": "array[string]",
+        "description": "Liste des fichiers spécifiques à analyser"
+      },
+      "severity_min": {
+        "type": "string",
+        "description": "Filtre : seuil minimum de gravité à inclure dans les résultats ('low', 'medium', 'high', 'critical')"
       }
     }
   },
