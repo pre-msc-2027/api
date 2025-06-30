@@ -2,4 +2,3 @@ fastapi
 uvicorn[standard]
 beanie
 python-dotenv
-mongoenine
