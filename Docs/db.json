@@ -46,6 +46,14 @@
       "severity_min": {
         "type": "string",
         "description": "Filtre : seuil minimum de gravité à inclure dans les résultats ('low', 'medium', 'high', 'critical')"
+      },
+      "branch_id": {
+        "type": "string",
+        "description": "Identifiant de la branche (ex: id Git ou nom logique interne)"
+      },
+      "commit_hash": {
+        "type": "string",
+        "description": "Nom ou hash du commit à analyser"
       }
     }
   },
