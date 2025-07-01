@@ -15,14 +15,14 @@
     "type": "string",
     "description": "Nom ou identifiant de la personne ayant lancé le scan"
   },
-  "repo_url": {
-    "type": "string",
-    "description": "Nom ou URL du dépôt "
-  },
   "scan_options": {
     "type": "object",
     "description": "Paramètres de configuration du scan",
     "properties": {
+        "repo_url": {
+        "type": "string",
+        "description": "Nom ou URL du dépôt "
+      },
       "use_ai_assistance": {
         "type": "boolean",
         "description": "Utilisation d'une IA pour aider l’analyse"
