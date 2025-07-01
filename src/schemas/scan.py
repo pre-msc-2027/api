@@ -1,13 +1,21 @@
 from typing import List
 from pydantic import BaseModel, Field
 
-class ScanBase(BaseModel):
-    rules_id: List[int]
+class ScanOptionsSchema(BaseModel):
+    repo_url: str
+    use_ai_assistance: bool
+    max_depth: int
+    follow_symlinks: bool
+    target_type: str
+    target_files: List[str]
+    severity_min: str 
+    branch_id: int
+    commit_hash: str
 
-class ScanCreate(ScanBase):
-    pass
+class ScanCreate(BaseModel):
+    scan_options: ScanOptionsSchema
 
-class ScanOut(ScanBase):
+class ScanOut(ScanCreate):
     scan_id: int
     id: str = Field(..., alias="_id")  # Automatically maps MongoDB's `_id` to `id`
 
