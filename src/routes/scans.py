@@ -14,14 +14,14 @@ async def get_scans(repo_url: str, service: ScansService = Depends(ScansService)
 
 
 @router.get("/{scan_id}", response_model=ScanOut)
-async def get_scan(scan_id: int, service: ScansService = Depends(ScansService)):
+async def get_scan(scan_id: str, service: ScansService = Depends(ScansService)):
     try:
         return await service.get_scan(scan_id)
     except not_found.ObjectNotFoundError as e:
         raise e.get_response()
     
 @router.get("/options/{scan_id}", response_model=ScanOptionsSchema)
-async def get_scan_option(scan_id: int, service: ScansService = Depends(ScansService)):
+async def get_scan_option(scan_id: str, service: ScansService = Depends(ScansService)):
     try:
         return await service.get_scan_options(scan_id)
     except not_found.ObjectNotFoundError as e:

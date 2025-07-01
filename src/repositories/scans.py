@@ -7,7 +7,7 @@ class ScansRepository(Repository):
     def __init__(self):
         super().__init__(models.Scan)
 
-    async def get_scan_by_id(self, scan_id: int) -> Optional[models.Scan]:
+    async def get_scan_by_id(self, scan_id: str) -> Optional[models.Scan]:
         return await models.Scan.get(scan_id)
 
     async def create(self, scan: models.Scan) -> models.Scan:

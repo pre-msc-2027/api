@@ -10,11 +10,11 @@ class ScanOptions(BaseModel):
     target_type: str 
     target_files: List[str]
     severity_min: str 
-    branch_id: int
+    branch_id: str
     commit_hash: str
 
 class Scan(Document):
-    scan_id: int  
+    scan_id: str  
     scan_options: ScanOptions
 
     class Settings:

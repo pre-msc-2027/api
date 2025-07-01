@@ -9,14 +9,14 @@ class ScanOptionsSchema(BaseModel):
     target_type: str
     target_files: List[str]
     severity_min: str 
-    branch_id: int
+    branch_id: str
     commit_hash: str
 
 class ScanCreate(BaseModel):
     scan_options: ScanOptionsSchema
 
 class ScanOut(ScanCreate):
-    scan_id: int
+    scan_id: str
     id: str = Field(..., alias="_id")  # Automatically maps MongoDB's `_id` to `id`
 
     class Config:

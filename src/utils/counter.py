@@ -1,7 +1,7 @@
 from models.counter import Counter
 from beanie.operators import Inc
 
-async def get_next_sequence(key: str) -> int:
+async def get_next_sequence(key: str) -> str:
     counter = await Counter.find_one(Counter.key == key)
 
     if counter:
@@ -11,4 +11,4 @@ async def get_next_sequence(key: str) -> int:
         counter = Counter(key=key, count=1)
         await counter.insert()
 
-    return counter.count
+    return str(counter.count) #Il faut hasher

@@ -12,16 +12,16 @@ class ScansService(Service):
     def __init__(self):
         self.scans_repository= ScansRepository()
 
-    async def get_scan(self, scan_id: int) -> ScanOut:
+    async def get_scan(self, scan_id: str) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", str(scan_id))
         return ScanOut.model_validate(scan)
     
-    async def get_scan_options(self, scan_id: int) -> ScanOptionsSchema:
+    async def get_scan_options(self, scan_id: str) -> ScanOptionsSchema:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
-            raise not_found.ObjectNotFoundError("scan", "scan_id", str(scan_id))
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
         return ScanOptionsSchema.model_validate(scan.scan_options)
 
     async def create_scan(self, scan_create: ScanCreate) -> ScanOut:
