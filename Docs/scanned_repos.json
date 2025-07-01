@@ -1,0 +1,56 @@
+{
+  "user": {
+    "type": "object",
+    "description": "Informations sur l'utilisateur ayant lancé le scan",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Identifiant unique de l'utilisateur"
+      },
+      "email": {
+        "type": "string",
+        "description": "Adresse e-mail de l'utilisateur"
+      },
+      "name": {
+        "type": "string",
+        "description": "Nom ou pseudonyme de l'utilisateur"
+      }
+    },
+    "required": ["id", "email"]
+  },
+  "repo_url": {
+    "type": "string",
+    "description": "URL du dépôt Git analysé"
+  },
+  "rules": {
+    "type": "array",
+    "description": "Liste des règles utilisées lors de l’analyse",
+    "items": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "description": "Identifiant de la règle"
+        },
+        "parameters": {
+          "type": "array",
+          "description": "Liste des paramètres de configuration de la règle",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nom du paramètre"
+              },
+              "value": {
+                "description": "Valeur attribuée à ce paramètre"
+              }
+            },
+            "required": ["name", "value"]
+          }
+        }
+      },
+      "required": ["rule_id"]
+    }
+  }
+}
