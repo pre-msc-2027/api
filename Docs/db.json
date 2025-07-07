@@ -114,7 +114,28 @@
             }
           }
         }
-      }
+      },
+      "warnings": {
+        "type": "array",
+        "description": "Liste des erreurs détectées",
+        "items":{
+          "type": "object",
+          "properties": {
+           "file": {
+              "type": "string",
+              "description": "Chemin du fichier concerné"
+            },
+            "line": {
+              "type": "integer",
+              "description": "Numéro de ligne de la vulnérabilité"
+            },
+            "id": {
+              "type": "int",
+              "description": "Id de la règle"
+            },
+          }
+        }
+     }
     }
   },
   "ai_comments": {

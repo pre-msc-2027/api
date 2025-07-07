@@ -5,6 +5,8 @@ from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema
 from src import models
 from typing import List
 from utils.counter import get_next_sequence
+import asyncio
+from utils.javaLauncher import run_java_process
 
 
 class ScansService(Service):
@@ -33,6 +35,8 @@ class ScansService(Service):
         )
 
         await scan_model.insert()
+
+        asyncio.create_task(run_java_process(scan_id))
         return ScanOut.model_validate(scan_model)
 
     async def get_scans(self, repo_url: str) -> List[int]:
