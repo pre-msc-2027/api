@@ -1,7 +1,7 @@
 from src.repositories.scans import ScansRepository
 from src.generics import Service
 from src.exceptions import not_found
-from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema
+from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema
 from src import models
 from typing import List
 from utils.counter import get_next_sequence
@@ -42,3 +42,13 @@ class ScansService(Service):
     async def get_scans(self, repo_url: str) -> List[int]:
         scans = await self.scans_repository.get_by_repo_name(repo_url)
         return [scan.scan_id for scan in scans]
+
+    async def fill_analysis(self, scan_id: str, analysis: AnalysisSchema) -> ScanOut:
+        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        if scan is None:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+
+        scan.analysis = analysis
+        await scan.save()
+
+        return ScanOut.model_validate(scan)
