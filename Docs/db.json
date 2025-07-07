@@ -132,7 +132,7 @@
             "id": {
               "type": "int",
               "description": "Id de la règle"
-            },
+            }
           }
         }
      }
