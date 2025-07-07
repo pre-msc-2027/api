@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from src.schemas import ScanCreate, ScanOut, ScanOptionsSchema
+from src.schemas import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema
 from src.services import ScansService
 from src.exceptions import not_found
 
@@ -30,3 +30,7 @@ async def get_scan_option(scan_id: str, service: ScansService = Depends(ScansSer
 @router.post("/", response_model=ScanOut, status_code=201)
 async def create_scan(scan: ScanCreate, service: ScansService = Depends(ScansService)):
     return await service.create_scan(scan)
+
+@router.post("/analyse/{scan_id}", response_model=ScanOut, status_code=201)
+async def fill_analysis(scan_id: str, scan: AnalysisSchema, service: ScansService = Depends(ScansService)):
+    return await service.fill_analysis(scan_id, scan)
