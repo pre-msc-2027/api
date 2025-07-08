@@ -2,11 +2,14 @@ from src.repositories.scans import ScansRepository
 from src.generics import Service
 from src.exceptions import not_found
 from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema
+from src.schemas.rule import RuleOut
 from src import models
 from typing import List
 from utils.counter import get_next_sequence
 import asyncio
 from utils.javaLauncher import run_java_process
+from src.services.rules import RulesService
+from src.schemas.ai import AnalysisWithRulesResponse
 
 
 class ScansService(Service):
@@ -52,3 +55,24 @@ class ScansService(Service):
         await scan.save()
 
         return ScanOut.model_validate(scan)
+    
+    async def get_analysis_with_rules(self, scan_id: str) -> AnalysisWithRulesResponse:
+        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        if not scan:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+        
+        if not scan.analysis or not scan.analysis.warnings:
+            return AnalysisWithRulesResponse(
+                analysis=AnalysisSchema.model_validate(scan.analysis),
+                rules=[]
+            )
+
+        rules_ids = list({w["rules_id"] for w in scan.analysis["warnings"] if "rules_id" in w})
+
+        rules_service = RulesService()
+        rules = await rules_service.get_rules_by_ids(rules_ids)
+
+        return AnalysisWithRulesResponse(
+            analysis=AnalysisSchema.model_validate(scan.analysis),
+            rules=[RuleOut.model_validate(r) for r in rules]
+        )

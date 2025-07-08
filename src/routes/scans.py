@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from src.schemas import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema
+from src.schemas import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema, AnalysisWithRulesResponse
 from src.services import ScansService
 from src.exceptions import not_found
 
@@ -34,3 +34,10 @@ async def create_scan(scan: ScanCreate, service: ScansService = Depends(ScansSer
 @router.post("/analyse/{scan_id}", response_model=ScanOut, status_code=201)
 async def fill_analysis(scan_id: str, scan: AnalysisSchema, service: ScansService = Depends(ScansService)):
     return await service.fill_analysis(scan_id, scan)
+
+@router.get("/analyse_with_rules/{scan_id}", response_model=AnalysisWithRulesResponse)
+async def get_analysis_with_rules(scan_id: str, service: ScansService = Depends(ScansService)):
+    try:
+        return await service.get_analysis_with_rules(scan_id)
+    except not_found.ObjectNotFoundError as e:
+        raise e.get_response()

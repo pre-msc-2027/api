@@ -8,7 +8,7 @@ router = APIRouter(prefix="/rules", tags=["rules"])
 
 @router.get("/", response_model=List[RuleOut])
 async def get_all_rules(service: RulesService = Depends(RulesService)):
-    rule_ids = await service.get_rules()
+    rule_ids = await service.get__all_rules()
     rules = [await service.get_rule(rid) for rid in rule_ids]
     return rules
 
