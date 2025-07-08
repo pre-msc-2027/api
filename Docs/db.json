@@ -129,9 +129,13 @@
               "type": "integer",
               "description": "Numéro de ligne de la vulnérabilité"
             },
-            "id": {
+            "rule_id": {
               "type": "int",
               "description": "Id de la règle"
+            }
+            "id":{
+              "type": "int",
+              "description": "Id du warning"
             }
           }
         }
