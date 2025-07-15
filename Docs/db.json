@@ -132,7 +132,7 @@
             "rule_id": {
               "type": "int",
               "description": "Id de la règle"
-            }
+            },
             "id":{
               "type": "int",
               "description": "Id du warning"
@@ -223,10 +223,10 @@
         "message": {
           "type": "string",
           "description": "Contenu du log"
-        }
+        },
         "error": {
           "type": "string",
-          "description": "Nom de l'erreur (Optionel)"
+          "description": "Nom de l'erreur (Optional)"
         }
       }
     }
