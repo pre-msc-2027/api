@@ -209,5 +209,26 @@
         "description": "Session en cours"
       }
     }
+  },
+  "logs": {
+    "type": "array",
+    "description": "Liste des logs de l'analyse",
+    "items": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "description": "Horodatage du log"
+        },
+        "message": {
+          "type": "string",
+          "description": "Contenu du log"
+        }
+        "error": {
+          "type": "string",
+          "description": "Nom de l'erreur (Optionel)"
+        }
+      }
+    }
   }
 }
