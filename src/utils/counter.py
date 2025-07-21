@@ -1,5 +1,5 @@
 import hashlib
-from models.counter import Counter
+from src.models.counter import Counter
 from beanie.operators import Inc
 
 async def get_next_sequence(key: str) -> str:

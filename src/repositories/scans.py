@@ -1,4 +1,4 @@
-from generics import Repository
+from src.generics import Repository
 from typing import Optional, List
 from src import models
 

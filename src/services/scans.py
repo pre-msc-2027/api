@@ -5,9 +5,9 @@ from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSch
 from src.schemas.rule import RuleOut
 from src import models
 from typing import List
-from utils.counter import get_next_sequence
+from src.utils.counter import get_next_sequence
 import asyncio
-from utils.javaLauncher import run_java_process
+from src.utils.javaLauncher import run_java_process
 from src.services.rules import RulesService
 from src.schemas.ai import AnalysisWithRulesResponse
 

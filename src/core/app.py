@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from src.routes import rules, scans, repos 
+from src.routes import rules, scans, repos
 
 app = FastAPI()
 
