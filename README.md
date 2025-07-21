@@ -226,7 +226,7 @@ Crée un dépôt. Corps attendu : même format sans l'identifiant.
 
 #### `GET /repositories/{repo_url}`
 
-Retourne les informations d'un dépôt à partir de son URL (encodée).
+Retourne les informations d'un dépôt à partir de son URL.
 
 ---
 
