@@ -166,9 +166,31 @@ Retourne uniquement les options du scan (voir `scan_options`).
 
 #### `POST /scans/`
 
-Crée un nouveau scan.
-
-**Corps attendu :** identique à `ScanCreate` (même format que `ScanOut` sans `scan_id`, `timestamp`, etc.)
+Crée un nouveau scan avec un json au format :
+```json
+{
+  "project_name": "nom_du_projet",
+  "scanned_by": "alice",
+  "scan_version": "1.0.0",
+  "scan_options": {
+    "repo_url": "https://github.com/mon/projet",
+    "use_ai_assistance": true,
+    "max_depth": 3,
+    "follow_symlinks": false,
+    "target_type": "python",
+    "target_files": ["main.py", "utils.py"],
+    "severity_min": "medium",
+    "branch_id": "main",
+    "commit_hash": "abc123"
+  },
+  "auth_context": {
+    "user_id": "user123",
+    "user_role": "admin",
+    "session_id": "xyz456"
+  },
+  "notes": "Scan initial",
+}
+```
 
 #### `POST /scans/logs/{scan_id}`
 
@@ -200,7 +222,7 @@ Liste tous les dépôts appartenant à un utilisateur donné.
 
 #### `POST /repositories/`
 
-Crée un dépôt (voir format `RepoCreate` égal à `RepoOut` sans identifiant).
+Crée un dépôt. Corps attendu : même format sans l'identifiant.
 
 #### `GET /repositories/{repo_url}`
 
@@ -220,7 +242,7 @@ Retourne une règle précise par son identifiant.
 
 #### `POST /rules/`
 
-Crée une règle personnalisée (voir `RuleCreate`).
+Crée une règle personnalisée. Corps attendu : même format
 
 ---
 
