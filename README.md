@@ -245,6 +245,3 @@ Retourne une règle précise par son identifiant.
 Crée une règle personnalisée. Corps attendu : même format
 
 ---
-
-Souhaites-tu que je te livre ce document aussi en version PDF ou HTML ? Je peux également t’intégrer un Swagger custom ou t’aider à publier cette doc automatiquement avec des outils comme **Redoc** ou **MkDocs**.
-
