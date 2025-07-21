@@ -14,7 +14,7 @@ class ScansRepository(Repository):
         await scan.insert()
         return scan
 
-    async def get_by_repo_name(self, repo_url: str) -> List[models.Scan]:
+    async def get_by_repo_url(self, repo_url: str) -> List[models.Scan]:
         return await self.model.find(
             {"scan_options.repo_url": repo_url}
         ).to_list()

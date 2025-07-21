@@ -23,6 +23,11 @@ class VulnerabilitySchema(BaseModel):
     description: str
     recommendation: str
 
+class WarningSchema(BaseModel):
+    file: str
+    line: int
+    rule_id: int
+    id: int
 
 class AnalysisSummarySchema(BaseModel):
     total_files: int
@@ -34,6 +39,7 @@ class AnalysisSchema(BaseModel):
     status: str
     summary: AnalysisSummarySchema
     vulnerabilities: List[VulnerabilitySchema]
+    warnings: List[WarningSchema]
 
 
 class DependencyVulnerabilitySchema(BaseModel):
@@ -54,6 +60,19 @@ class AuthContextSchema(BaseModel):
     user_role: str
     session_id: str
 
+class LogEntrySchema(BaseModel):
+    timestamp: int  
+    message: str
+    error: Optional[str] = None
+
+class AnalysisSummaryItem(BaseModel):
+    scan_id: str
+    project_name: str
+    branch_id: str
+
+class RepoSummary(BaseModel):
+    repo_url: str
+    analyses: List[AnalysisSummaryItem]
 
 class ScanCreate(BaseModel):
     project_name: str
@@ -70,3 +89,4 @@ class ScanOut(ScanCreate):
     analysis: Optional[AnalysisSchema] = None
     ai_comments: Optional[str] = None
     dependencies: Optional[List[DependencySchema]] = None
+    logs: Optional[List[LogEntrySchema]] = None

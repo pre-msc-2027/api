@@ -1,10 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
-from src.routes import rules 
+from src.routes import rules, scans, repos 
 
 app = FastAPI()
 
 app.include_router(rules.router)
+app.include_router(scans.router)
+app.include_router(repos.router)
 
 #app.add_middleware(
 #    CORSMiddleware,
