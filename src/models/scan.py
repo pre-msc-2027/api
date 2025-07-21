@@ -24,6 +24,11 @@ class Vulnerability(BaseModel):
     description: str
     recommendation: str
 
+class Warning(BaseModel):
+    file: str
+    line: int
+    rule_id: int
+    id: int
 
 class AnalysisSummary(BaseModel):
     total_files: int
@@ -35,6 +40,7 @@ class Analysis(BaseModel):
     status: str
     summary: AnalysisSummary
     vulnerabilities: List[Vulnerability]
+    warnings: List[Warning]
 
 
 class DependencyVulnerability(BaseModel):
@@ -55,6 +61,10 @@ class AuthContext(BaseModel):
     user_role: str
     session_id: str
 
+class LogEntry(BaseModel):
+    timestamp: int 
+    message: str
+    error: Optional[str] = None
 
 class Scan(Document):
     scan_id: str
@@ -68,6 +78,7 @@ class Scan(Document):
     dependencies: Optional[List[Dependency]]
     notes: Optional[str]
     auth_context: Optional[AuthContext]
+    logs: Optional[List[LogEntry]] = None
 
     class Settings:
         name = "scans"

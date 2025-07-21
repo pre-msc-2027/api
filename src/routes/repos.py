@@ -6,7 +6,7 @@ from src.exceptions import not_found
 
 router = APIRouter(prefix="/repositories", tags=["repositories"])
 
-@router.get("/{user}", response_model=List[RepoOut])
+@router.get("/user/{user}", response_model=List[RepoOut])
 async def list_repositories(user: str, service: ReposService = Depends(ReposService)):
     return await service.get_all(user)
 

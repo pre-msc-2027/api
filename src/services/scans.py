@@ -1,7 +1,7 @@
 from src.repositories.scans import ScansRepository
 from src.generics import Service
 from src.exceptions import not_found
-from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema
+from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema, LogEntrySchema, AnalysisSummaryItem, RepoSummary
 from src.schemas.rule import RuleOut
 from src import models
 from typing import List
@@ -42,9 +42,24 @@ class ScansService(Service):
         asyncio.create_task(run_java_process(scan_id))
         return ScanOut.model_validate(scan_model)
 
-    async def get_scans(self, repo_url: str) -> List[int]:
-        scans = await self.scans_repository.get_by_repo_name(repo_url)
-        return [scan.scan_id for scan in scans]
+    async def get_user_repo_summaries(self, user: str) -> List[RepoSummary]:
+        repos = await self.repos_repository.get_all_by_user(user)
+        summaries = []
+
+        for repo in repos:
+            scans = await self.scans_repository.get_all_by_repo_url(repo.repo_url)
+            analyses = [
+                AnalysisSummaryItem(
+                    scan_id=scan.scan_id,
+                    project_name=scan.project_name,
+                    branch_id=scan.scan_options.branch_id
+                )
+                for scan in scans
+            ]
+            summaries.append(RepoSummary(repo_url=repo.repo_url, analyses=analyses))
+
+        return summaries
+
 
     async def fill_analysis(self, scan_id: str, analysis: AnalysisSchema) -> ScanOut:
         scan = await self.scans_repository.get_by_scan_id(scan_id)
@@ -52,6 +67,19 @@ class ScansService(Service):
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
 
         scan.analysis = analysis
+        await scan.save()
+
+        return ScanOut.model_validate(scan)
+    
+    async def fill_logs(self, scan_id: str, log: LogEntrySchema) -> ScanOut:
+        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        if scan is None:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+
+        if scan.logs is None:
+            scan.logs = []
+
+        scan.logs.append(log)
         await scan.save()
 
         return ScanOut.model_validate(scan)

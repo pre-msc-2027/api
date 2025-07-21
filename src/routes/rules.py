@@ -11,7 +11,7 @@ async def get_all_rules(service: RulesService = Depends(RulesService)):
     rule_ids = await service.get__all_rules()
     rules = [await service.get_rule(rid) for rid in rule_ids]
     return rules
-
+ 
 
 @router.get("/{rule_id}", response_model=RuleOut)
 async def get_rule(rule_id: str, service: RulesService = Depends(RulesService)):
