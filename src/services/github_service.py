@@ -8,6 +8,10 @@ async def get_user_info(access_token: str):
             f"{GITHUB_API}/user",
             headers={'Authorization': f'token {access_token}', 'Accept': "application/vnd.github.v3+json"}
         )
+
+        if resp.status_code != 200:
+            raise httpx.HTTPStatusError(f"Failed to fetch user info: {resp.status_code}", request=resp.request, response=resp)
+
     return resp.json()
 
 async def get_user_repos(access_token: str):
@@ -16,6 +20,8 @@ async def get_user_repos(access_token: str):
             f"{GITHUB_API}/user/repos",
             headers={'Authorization': f'token {access_token}', 'Accept': "application/vnd.github.v3+json"}
         )
+        if resp.status_code != 200:
+            raise httpx.HTTPStatusError(f"Failed to fetch user repositories: {resp.status_code}", request=resp.request, response=resp)
     return resp.json()
 
 async def get_repo_files(access_token: str, owner: str, repo: str, branch: str = "main"):
@@ -25,4 +31,6 @@ async def get_repo_files(access_token: str, owner: str, repo: str, branch: str =
             params={"ref": branch},
             headers={'Authorization': f'token {access_token}', 'Accept': "application/vnd.github.v3+json"}
         )
+        if resp.status_code != 200:
+            raise httpx.HTTPStatusError(f"Failed to fetch repository files: {resp.status_code}", request=resp.request, response=resp)
     return resp.json()
