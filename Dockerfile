@@ -6,8 +6,8 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN groupadd -r myuser && useradd -r -g myuser myuser; pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./app /code/app
+COPY . .
 
 USER myuser
 
-CMD ["fastapi", "run", "app/main.py", "--port", "80", "--proxy-headers"]
+CMD ["fastapi", "run", "main.py", "--port", "80", "--proxy-headers"]
