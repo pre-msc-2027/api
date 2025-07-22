@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from src.routes import rules
 from src.user import router as user_router
-from src.routes.repo import router as repo_router
+from src.routes.repo_github import router as repo_router
 app = FastAPI()
 
 app.include_router(rules.router)
