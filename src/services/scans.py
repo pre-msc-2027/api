@@ -1,7 +1,8 @@
 from src.repositories.scans import ScansRepository
+from src.repositories.repos import ReposRepository
 from src.generics import Service
 from src.exceptions import not_found
-from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema, LogEntrySchema, AnalysisSummaryItem, RepoSummary
+from src.schemas.scan import ScanCreate, ScanOut, ScanOptionsSchema, AnalysisSchema, LogEntrySchema, AnalysisSummaryItem, RepoSummary, AICommentSchema
 from src.schemas.rule import RuleOut
 from src import models
 from typing import List
@@ -16,6 +17,7 @@ class ScansService(Service):
 
     def __init__(self):
         self.scans_repository= ScansRepository()
+        self.repos_repository= ReposRepository()
 
     async def get_scan(self, scan_id: str) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -62,7 +64,7 @@ class ScansService(Service):
 
 
     async def fill_analysis(self, scan_id: str, analysis: AnalysisSchema) -> ScanOut:
-        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
 
@@ -72,7 +74,7 @@ class ScansService(Service):
         return ScanOut.model_validate(scan)
     
     async def fill_logs(self, scan_id: str, log: LogEntrySchema) -> ScanOut:
-        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
 
@@ -84,8 +86,21 @@ class ScansService(Service):
 
         return ScanOut.model_validate(scan)
     
+    async def fill_ai_comment(self, scan_id: str, ai_comment: AICommentSchema) -> ScanOut:
+        scan = await self.scans_repository.get_scan_by_id(scan_id)
+        if scan is None:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+
+        if scan.ai_comments is None:
+            scan.ai_comments = []
+
+        scan.ai_comments.append(ai_comment)
+        await scan.save()
+
+        return ScanOut.model_validate(scan)
+    
     async def get_analysis_with_rules(self, scan_id: str) -> AnalysisWithRulesResponse:
-        scan = await self.scans_repository.get_by_scan_id(scan_id)
+        scan = await self.scans_repository.get_scan_by_id(scan_id)
         if not scan:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
         

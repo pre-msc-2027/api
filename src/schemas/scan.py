@@ -74,6 +74,11 @@ class RepoSummary(BaseModel):
     repo_url: str
     analyses: List[AnalysisSummaryItem]
 
+class AICommentSchema(BaseModel):
+    warning_id: int
+    original: str
+    fixed: str
+
 class ScanCreate(BaseModel):
     project_name: str
     scanned_by: str
@@ -87,6 +92,6 @@ class ScanOut(ScanCreate):
     scan_id: str
     timestamp: datetime
     analysis: Optional[AnalysisSchema] = None
-    ai_comments: Optional[str] = None
+    ai_comments: Optional[List[AICommentSchema]] = None
     dependencies: Optional[List[DependencySchema]] = None
     logs: Optional[List[LogEntrySchema]] = None

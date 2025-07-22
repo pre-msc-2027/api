@@ -66,6 +66,11 @@ class LogEntry(BaseModel):
     message: str
     error: Optional[str] = None
 
+class AIComment(BaseModel):
+    warning_id: int
+    original: str
+    fixed: str
+
 class Scan(Document):
     scan_id: str
     timestamp: datetime
@@ -73,7 +78,7 @@ class Scan(Document):
     scanned_by: str
     scan_options: ScanOptions
     analysis: Optional[Analysis]
-    ai_comments: Optional[str]
+    ai_comments: Optional[List[AIComment]] = None
     scan_version: str
     dependencies: Optional[List[Dependency]]
     notes: Optional[str]

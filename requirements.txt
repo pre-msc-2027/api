@@ -3,3 +3,4 @@ uvicorn[standard]
 beanie
 python-dotenv
 pymongo
+motor
