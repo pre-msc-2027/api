@@ -1,7 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
+
 from contextlib import asynccontextmanager
 from src.routes import rules, scans, repos
+from src.user import router as user_router
+from src.routes.repo_github import router as repo_router
 from src.core.database import init_db
 
 @asynccontextmanager
