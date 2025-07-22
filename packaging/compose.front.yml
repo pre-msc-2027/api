@@ -1,0 +1,10 @@
+services:
+  frontend:
+    container_name: secuscan-front
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    environment:
+      API_URL: server
+    ports:
+      - 5173:5173

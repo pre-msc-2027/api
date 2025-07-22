@@ -1,0 +1,9 @@
+services:
+  server:
+    container_name: secuscan-back
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    environment:
+      MONGODB_URI: mongodb://root:example@mongo:27017/
+      MONGO_DBNAME: secuscan
