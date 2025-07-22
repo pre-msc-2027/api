@@ -9,7 +9,7 @@ class RulesRepository(Repository):
         super().__init__(Rule)
 
     async def get_rule_by_id(self, rule_id: int) -> Optional[Rule]:
-        return await Rule.get(rule_id)
+        return await Rule.find_one(Rule.rule_id == rule_id)
 
     async def create(self, rule: Rule) -> Rule:
         await rule.insert()

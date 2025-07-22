@@ -66,6 +66,13 @@ Elle est construite avec **FastAPI** et utilise **Pydantic** pour la validation 
       }
     ]
   },
+"ai_comment": [
+    {
+      "warning_id": 42,
+      "original": "eval(user_input)",
+      "fixed": "ast.literal_eval(user_input)"
+    },
+  ],
   "dependencies": [
     {
       "name": "requests",
@@ -204,6 +211,18 @@ Ajoute un log à un scan.
 }
 ```
 
+#### `POST /scans/ai_comment/{scan_id}`
+
+Ajoute un ai comment à un scan.
+
+```json
+{
+  "warning_id": 42,
+  "original": "eval(user_input)",
+  "fixed": "ast.literal_eval(user_input)"
+},
+```
+
 #### `POST /scans/analyse/{scan_id}`
 
 Ajoute les résultats d'analyse à un scan.
@@ -222,7 +241,7 @@ Liste tous les dépôts appartenant à un utilisateur donné.
 
 #### `POST /repositories/`
 
-Crée un dépôt. Corps attendu : même format sans l'identifiant.
+Crée un dépôt. Corps attendu : même format.
 
 #### `GET /repositories/{repo_url}`
 

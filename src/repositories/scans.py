@@ -8,7 +8,7 @@ class ScansRepository(Repository):
         super().__init__(models.Scan)
 
     async def get_scan_by_id(self, scan_id: str) -> Optional[models.Scan]:
-        return await models.Scan.get(scan_id)
+        return await models.Scan.find_one(models.Scan.scan_id == scan_id)
 
     async def create(self, scan: models.Scan) -> models.Scan:
         await scan.insert()
