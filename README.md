@@ -211,6 +211,18 @@ Ajoute un log à un scan.
 }
 ```
 
+#### `POST /scans/ai_comment/{scan_id}`
+
+Ajoute un ai comment à un scan.
+
+```json
+{
+  "warning_id": 42,
+  "original": "eval(user_input)",
+  "fixed": "ast.literal_eval(user_input)"
+},
+```
+
 #### `POST /scans/analyse/{scan_id}`
 
 Ajoute les résultats d'analyse à un scan.
