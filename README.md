@@ -66,7 +66,7 @@ Elle est construite avec **FastAPI** et utilise **Pydantic** pour la validation 
       }
     ]
   },
-"ai_comment": [
+  "ai_comment": [
     {
       "warning_id": 42,
       "original": "eval(user_input)",
@@ -230,6 +230,59 @@ Ajoute les résultats d'analyse à un scan.
 #### `GET /scans/analyse_with_rules/{scan_id}`
 
 Retourne les résultats d'analyse enrichis avec les règles associées.
+
+```json
+{
+  "analysis": {
+    "status": "completed",
+    "summary": {
+      "total_files": 10,
+      "files_with_vulnerabilities": 3,
+      "vulnerabilities_found": 5
+    },
+    "warnings": [
+      {
+        "file": "src/app.py",
+        "line": 42,
+        "rule_id": 101,
+        "id": 1
+      },
+      {
+        "file": "src/utils.py",
+        "line": 12,
+        "rule_id": 102,
+        "id": 2
+      }
+    ]
+  },
+  "rules": [
+    {
+      "rule_id": "101",
+      "name": "Detect SQL Injection",
+      "description": "This rule flags SQL queries built using string concatenation.",
+      "tags": ["security", "sql", "injection"],
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pattern",
+          "default": "SELECT * FROM",
+          "description": "Pattern to search for in SQL strings",
+          "options": {
+            "case_sensitive": false
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "102",
+      "name": "Unsafe System Call",
+      "description": "Detects usage of dangerous system calls like os.system.",
+      "tags": ["security", "command"],
+      "parameters": []
+    }
+  ]
+}
+```
 
 ---
 
