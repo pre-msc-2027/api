@@ -8,7 +8,7 @@ class Repository(Generic[DocType], abc.ABC):
     def __init__(self, model: Type[DocType]):
         self.model = model
 
-    async def get_by_id(self, id: int) -> DocType | None:
+    async def get_by_id(self, id: int) -> DocType:
         return await self.model.get(id)
 
     async def get_all(self) -> list[DocType]:
