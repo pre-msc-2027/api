@@ -66,6 +66,13 @@ Elle est construite avec **FastAPI** et utilise **Pydantic** pour la validation 
       }
     ]
   },
+"ai_comment": [
+    {
+      "warning_id": 42,
+      "original": "eval(user_input)",
+      "fixed": "ast.literal_eval(user_input)"
+    },
+  ],
   "dependencies": [
     {
       "name": "requests",
@@ -222,7 +229,7 @@ Liste tous les dépôts appartenant à un utilisateur donné.
 
 #### `POST /repositories/`
 
-Crée un dépôt. Corps attendu : même format sans l'identifiant.
+Crée un dépôt. Corps attendu : même format.
 
 #### `GET /repositories/{repo_url}`
 
