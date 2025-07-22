@@ -143,8 +143,25 @@
     }
   },
   "ai_comments": {
-    "type": "string",
-    "description": "Résumé ou retour généré par l’IA (facultatif)"
+    "type": "array",
+    "description": "Liste de corrections suggérées par l’IA",
+    "items": {
+      "type": "object",
+      "properties": {
+        "warning_id": {
+          "type": "integer",
+          "description": "Identifiant du warning auquel se rapporte la suggestion"
+        },
+        "original": {
+          "type": "string",
+          "description": "Code original à corriger"
+        },
+        "fixed": {
+          "type": "string",
+          "description": "Code corrigé proposé par l'IA"
+        }
+      }
+    }
   },
   "scan_version": {
     "type": "string",
