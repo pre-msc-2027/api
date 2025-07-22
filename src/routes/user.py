@@ -4,10 +4,10 @@ from src.dependencies.auth import get_access_token
 
 router = APIRouter()
 
-@router.get("/info")
+@router.get("/user/info")
 async def user_info(token: str = Depends(get_access_token)):
     return await get_user_info(token)
 
-@router.get("/repos")
+@router.get("/user/repos")
 async def user_repos(token: str = Depends(get_access_token)):
-    return await get_user_repos(token)
+    return await get_user_repos(token) 
