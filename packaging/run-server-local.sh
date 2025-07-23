@@ -1,1 +1,1 @@
-docker compose up -d -f compose.front.yml compose.mongo.yml
+docker compose -f compose.front.yml -f compose.mongo.yml up -d
