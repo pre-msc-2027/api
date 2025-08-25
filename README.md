@@ -317,3 +317,16 @@ Retourne une règle précise par son identifiant.
 Crée une règle personnalisée. Corps attendu : même format
 
 ---
+
+# Documentation Base de Données (MongoDB Atlas)
+
+## Vue d’ensemble
+- **Serveur** : MongoDB Atlas
+- **DB principale** : `Secuscan`
+- **Collections** : `scans`, `rules` (optionnel : `scanned_repos`)
+- **Accès** : via URI dans `.env`
+
+## Variables d’environnement (.env)
+```env
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.xxxx.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DBNAME=Secuscan
