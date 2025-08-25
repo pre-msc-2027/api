@@ -332,7 +332,8 @@ MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.xxxx.mongodb.net/?retryWrit
 MONGODB_DBNAME=Secuscan
 ```
 ## Collections & Schémas
-### Scans
+### scans
+Documente les résultats d’un scan + analyses & warnings.
 Exemple de document :
 ```json
 {
@@ -424,14 +425,111 @@ Exemple de document :
 }
 ```
 
-Champs obligatoires :
+#### Champs obligatoires :
 scan_id, timestamp, project_name, scanned_by, scan_options
 
-ai_comments[] : liste de corrections IA par warning: 
+#### ai_comments[] : liste de corrections IA par warning: 
 — warning_id (int) fait le lien vers warnings.id
 — original, fixed : texte/code avant/après
 
-warnings[] : issues brutes remontées par l’analyseur (fichier, ligne, règle…)
+#### warnings[] : issues brutes remontées par l’analyseur (fichier, ligne, règle…)
 
-Validation MongoDB :
-Activée via $jsonSchema (voir Compass > Validation).
+#### Validation MongoDB :
+Activée via $jsonSchema (voir MongoDB Compass > Validation).
+
+### rules
+Stocke la définition de règles et leurs paramètres.
+Exemple de document :
+```json
+{
+  "rule_id": "R-CASING-001",
+  "name": "Casing des identifiants",
+  "description": "Impose un style de casse cohérent pour les variables, fonctions et classes.",
+  "tags": ["style", "conventions", "readability"],
+  "parameters": [
+    {
+      "type": "enum",
+      "name": "target_casing",
+      "default": "snake_case",
+      "description": "Style de casse attendu pour les identifiants ciblés.",
+      "options": {
+        "allowed": ["snake_case", "camelCase", "PascalCase", "kebab-case"]
+      }
+    },
+    {
+      "type": "enum",
+      "name": "targets",
+      "default": ["variables", "functions"],
+      "description": "Catégories d’éléments concernés par la règle.",
+      "options": {
+        "allowed": ["variables", "functions", "classes", "constants"],
+        "multiple": true
+      }
+    },
+    {
+      "type": "boolean",
+      "name": "ignore_test_files",
+      "default": true,
+      "description": "Ignore les fichiers de test (ex: *_test.*, test_*).",
+      "options": {}
+    },
+    {
+      "type": "regex",
+      "name": "exclude_paths",
+      "default": ["^vendor/", "^build/"],
+      "description": "Chemins à exclure via expressions régulières.",
+      "options": {
+        "examples": ["^dist/", "^third_party/"]
+      }
+    }
+  ]
+}
+```
+#### Champs obligatoires : rule_id, name, description, tags, parameters.
+#### tags : tableau de chaînes pour filtrer/catégoriser (ex: ["security", "sql", "performance"]).
+#### parameters[] :
+- type : libre (ex: "string", "boolean", "int", "enum", "regex"…), c’est informatif pour l’UI/l’analyseur.
+- name : clé utilisée par l’outil/IA.
+- default : valeur par défaut (type libre selon type).
+- description : texte clair pour l’usage du paramètre.
+- options : objet flexible (ex: { "allowed": [...], "min": 0, "max": 10, "multiple": true }).
+NB : toujours garder des rule_id stables (ex: R-<DOMAINE>-<NUM>) pour faire le lien depuis warnings[].rule_id.
+
+### scanned_repos
+Associe un utilisateur à un dépôt + règles.
+Exemple de document :
+```json
+{
+  "user": {
+    "id": "user_12345",
+    "email": "user@example.com",
+    "name": "Aurore"
+  },
+  "repo_url": "https://github.com/example/repo",
+  "rules": [
+    {
+      "rule_id": "rule_xss_001",
+      "parameters": [
+        {
+          "name": "max_depth",
+          "value": 5
+        },
+        {
+          "name": "severity_min",
+          "value": "medium"
+        }
+      ]
+    },
+    {
+      "rule_id": "rule_sql_injection_002",
+      "parameters": [
+        {
+          "name": "sanitize_inputs",
+          "value": true
+        }
+      ]
+    }
+  ]
+}
+```
+#### Champs obligatoires : user.id, user.email, repo_url, rules[].rule_id
