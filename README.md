@@ -330,3 +330,6 @@ Crée une règle personnalisée. Corps attendu : même format
 ```env
 MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.xxxx.mongodb.net/?retryWrites=true&w=majority
 MONGODB_DBNAME=Secuscan
+
+## Collections & Schémas
+### Scans
