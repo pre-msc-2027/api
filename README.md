@@ -323,7 +323,7 @@ Crée une règle personnalisée. Corps attendu : même format
 ## Vue d’ensemble
 - **Serveur** : MongoDB Atlas
 - **DB principale** : `Secuscan`
-- **Collections** : `scans`, `rules` (optionnel : `scanned_repos`)
+- **Collections** : `scans`, `rules`, `scanned_repos`
 - **Accès** : via URI dans `.env`
 
 ## Variables d’environnement (.env)
