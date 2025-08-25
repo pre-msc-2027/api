@@ -333,3 +333,105 @@ MONGODB_DBNAME=Secuscan
 ```
 ## Collections & Schémas
 ### Scans
+Exemple de document :
+```json
+{
+  "scan_id": "scan_001",
+  "timestamp": "2025-08-25T06:30:00Z",
+  "project_name": "Secuscan",
+  "scanned_by": "aurore",
+  "repo_url": "https://github.com/example/repo",
+  "scan_options": {
+    "repo_url": "https://github.com/example/repo",
+    "use_ai_assistance": true,
+    "max_depth": 5,
+    "follow_symlinks": false,
+    "target_type": "repository",
+    "target_files": ["app.py", "utils/helpers.py"],
+    "severity_min": "medium",
+    "branch_id": "main",
+    "commit_hash": "a1b2c3d4"
+  },
+  "analysis": {
+    "status": "completed",
+    "summary": {
+      "total_files": 10,
+      "files_with_vulnerabilities": 2,
+      "vulnerabilities_found": 5
+    },
+    "vulnerabilities": [
+      {
+        "file": "app.py",
+        "line": 42,
+        "type": "Hardcoded secret",
+        "severity": "high",
+        "description": "Mot de passe en clair trouvé dans le code",
+        "recommendation": "Utiliser une variable d’environnement au lieu d’un mot de passe en dur"
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "file": "app.py",
+      "line": 42,
+      "rule_id": 101,
+      "id": 1
+    }
+  ],
+  "ai_comments": [
+    {
+      "warning_id": 1,
+      "original": "password = '123456'",
+      "fixed": "password = os.getenv('APP_PASSWORD')"
+    },
+    {
+      "warning_id": 2,
+      "original": "print('Erreur critique')",
+      "fixed": "logging.error('Erreur critique')"
+    }
+  ],
+  "scan_version": "1.0.0",
+  "dependencies": [
+    {
+      "name": "requests",
+      "version": "2.32.3",
+      "vulnerabilities": [
+        {
+          "id": "CVE-2024-1234",
+          "severity": "medium",
+          "description": "Vulnérabilité sur les certificats SSL"
+        }
+      ]
+    }
+  ],
+  "notes": "RAS",
+  "auth_context": {
+    "user_id": "aurorekouakou",
+    "permissions": ["read", "write"]
+  },
+  "logs": [
+    {
+      "timestamp": 1724569200,
+      "message": "Scan démarré",
+      "error": ""
+    },
+    {
+      "timestamp": 1724569250,
+      "message": "Scan terminé",
+      "error": ""
+    }
+  ]
+}
+```
+
+Champs obligatoires :
+scan_id, timestamp, project_name, scanned_by, scan_options
+
+ai_comments[] : liste de corrections IA par warning: 
+— warning_id (int) fait le lien vers warnings.id
+— original, fixed : texte/code avant/après
+
+warnings[] : issues brutes remontées par l’analyseur (fichier, ligne, règle…)
+
+Validation MongoDB :
+Activée via $jsonSchema (voir Compass > Validation).
