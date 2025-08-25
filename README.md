@@ -1,4 +1,4 @@
-# 📃 Documentation de l'API – Système d'analyse de code
+ # 📃 Documentation de l'API – Système d'analyse de code
 
 Cette API permet de gérer :
 
@@ -533,3 +533,11 @@ Exemple de document :
 }
 ```
 #### Champs obligatoires : user.id, user.email, repo_url, rules[].rule_id
+
+## Tests
+
+### Unitaires (sans DB réelle)
+./.venv/bin/python -m pytest -q
+
+### Intégration Atlas (réseau/credentials/validation)
+USE_ATLAS=1 ./.venv/bin/python -m pytest -q tests/test_scans_integration.py
