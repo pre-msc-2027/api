@@ -137,7 +137,7 @@ class ScansService(Service):
         
         if not scan.analysis or not scan.analysis.warnings:
             return AnalysisWithRulesResponse(
-                repo_url=scan.scanoptions.repo_url
+                repo_url=scan.scanoptions.repo_url,
                 analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
                 rules=[]
             )
@@ -148,7 +148,7 @@ class ScansService(Service):
         rules = await rules_service.get_rules_by_ids(rules_ids)
 
         return AnalysisWithRulesResponse(
-            repo_url=scan.scanoptions.repo_url
+            repo_url=scan.scanoptions.repo_url,
             analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
             rules=[RuleOut.model_validate(r.model_dump()) for r in rules]
         )
