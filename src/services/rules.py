@@ -1,7 +1,7 @@
 from src.repositories.rules import RulesRepository
 from src.generics import Service
 from src.exceptions import not_found
-from src.services import ScansService
+from src.services.scans import ScansService
 from src.schemas.rule import RuleCreate, RuleOut
 from src import models
 from typing import List
