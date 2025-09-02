@@ -4,3 +4,4 @@ beanie
 python-dotenv
 pymongo
 motor
+httpx
