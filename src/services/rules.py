@@ -1,6 +1,7 @@
 from src.repositories.rules import RulesRepository
 from src.generics import Service
 from src.exceptions import not_found
+from src.services import ScansService
 from src.schemas.rule import RuleCreate, RuleOut
 from src import models
 from typing import List
@@ -28,3 +29,10 @@ class RulesService(Service):
     
     async def get_all_rules(self) -> List[models.Rule]:
         return await self.rules_repository.get_all()
+
+    async def get_rules_by_scan(self) -> List[models.Rule]:
+        scan = await ScansService.scans_repository.get_scan_by_id(scan_id)
+        if not scan:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+        rules_ids = scan.scan_options.rules_id
+        return rules_ids

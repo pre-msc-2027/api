@@ -11,7 +11,12 @@ async def get_all_rules(service: RulesService = Depends(RulesService)):
     rule_ids = await service.get_all_rules()
     rules = [await service.get_rule(rid) for rid in rule_ids]
     return rules
- 
+
+@router.get("/by_scan/{scan_id}", response_model=List[RuleOut])
+async def get_rules_by_scan(service: RulesService = Depends(RulesService)):
+    rule_ids = await service.get_rules_by_scan()
+    rules = [await service.get_rule(rid) for rid in rule_ids]
+    return rules
 
 @router.get("/{rule_id}", response_model=RuleOut)
 async def get_rule(rule_id: str, service: RulesService = Depends(RulesService)):
@@ -19,7 +24,6 @@ async def get_rule(rule_id: str, service: RulesService = Depends(RulesService)):
         return await service.get_rule(rule_id)
     except not_found.ObjectNotFoundError as e:
         raise e.get_response()
-
 
 @router.post("/", response_model=RuleOut, status_code=201)
 async def create_rule(rule: RuleCreate, service: RulesService = Depends(RulesService)):

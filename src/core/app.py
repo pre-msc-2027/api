@@ -28,4 +28,3 @@ app.include_router(repos.router)
 
 def start():
     uvicorn.run(app,host= '0.0.0.0',  port= 8001)
-    print('api qui marche ')

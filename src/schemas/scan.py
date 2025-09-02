@@ -10,6 +10,7 @@ class ScanOptionsSchema(BaseModel):
     follow_symlinks: bool
     target_type: str
     target_files: Optional[List[str]]
+    rules_id: List[str] 
     severity_min: str
     branch_id: str
     commit_hash: str
@@ -91,8 +92,6 @@ class ScanBase(BaseModel):
 
 class ScanCreate(ScanBase):
     token: str = None
-
-
 
 class ScanOut(ScanBase):
     scan_id: str
