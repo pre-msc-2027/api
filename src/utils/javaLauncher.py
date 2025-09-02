@@ -1,7 +1,7 @@
 import asyncio
 
-async def run_java_process(scan_id: str):
-    cmd = ["java", "-jar", "/analyser/target/analyse.jar", scan_id]
+async def run_java_process(scan_id: str, token: str):
+    cmd = ["java", "-jar", "-Djava.library.path=libs/", "--enable-native-access=ALL-UNNAMED", "analyse.jar", scan_id, token]
     
     process = await asyncio.create_subprocess_exec(
         *cmd,

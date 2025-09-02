@@ -77,12 +77,12 @@ class Scan(Document):
     project_name: str
     scanned_by: str
     scan_options: ScanOptions
-    analysis: Optional[Analysis]
+    analysis: Optional[Analysis] = None
     ai_comments: Optional[List[AIComment]] = None
     scan_version: str
-    dependencies: Optional[List[Dependency]]
-    notes: Optional[str]
-    auth_context: Optional[AuthContext]
+    dependencies: Optional[List[Dependency]] = None
+    notes: Optional[str] = None
+    auth_context: Optional[AuthContext] = None
     logs: Optional[List[LogEntry]] = None
 
     class Settings:

@@ -7,7 +7,7 @@ class ReposRepository(Repository):
         super().__init__(Repo)
 
     async def get_by_url(self, repo_url: str) -> Optional[Repo]:
-        return await self.model.find_one(Repo.repo_url == repo_url)
+        return await self.model.find_one({'repo_url': repo_url})
 
-    async def get_all_by_user(self, user: str):
-        return await Repo.find(Repo.user == user).to_list()
+    async def get_all_by_name(self, name: str):
+        return await Repo.find({'user.name': name}).to_list()

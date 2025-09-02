@@ -1,3 +1,10 @@
+import hashlib
+from datetime import datetime
+
+from beanie.odm.operators.update.general import Inc
+
+from src.models.counter import Counter
+from src.models.scan import ScanOptions
 from src.repositories.scans import ScansRepository
 from src.repositories.repos import ReposRepository
 from src.generics import Service
@@ -23,33 +30,40 @@ class ScansService(Service):
         scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", str(scan_id))
-        return ScanOut.model_validate(scan)
+        return ScanOut.model_validate(scan.model_dump())
     
     async def get_scan_options(self, scan_id: str) -> ScanOptionsSchema:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
-        return ScanOptionsSchema.model_validate(scan.scan_options)
+        return ScanOptionsSchema.model_validate(scan.scan_options.model_dump())
 
     async def create_scan(self, scan_create: ScanCreate) -> ScanOut:
         scan_id = await get_next_sequence("scan_id")
 
         scan_model = models.Scan(
+
         scan_id=scan_id,
-        scan_options=scan_create.scan_options
+        timestamp=datetime.now(),
+        project_name=scan_create.project_name,
+        scanned_by=scan_create.scanned_by,
+        scan_version="1.1.1",
+        scan_options=ScanOptions.model_validate(scan_create.scan_options.model_dump())
+
         )
 
         await scan_model.insert()
 
-        asyncio.create_task(run_java_process(scan_id))
-        return ScanOut.model_validate(scan_model)
+        asyncio.create_task(run_java_process(scan_id, scan_create.token))
+        return ScanOut.model_validate(scan_model.model_dump())
 
-    async def get_user_repo_summaries(self, user: str) -> List[RepoSummary]:
-        repos = await self.repos_repository.get_all_by_user(user)
+    async def get_user_repo_summaries(self, name: str) -> List[RepoSummary]:
+        repos = await self.repos_repository.get_all_by_name(name)
+        print(repos)
         summaries = []
 
         for repo in repos:
-            scans = await self.scans_repository.get_all_by_repo_url(repo.repo_url)
+            scans = await self.scans_repository.get_by_repo_url(repo.repo_url)
             analyses = [
                 AnalysisSummaryItem(
                     scan_id=scan.scan_id,
@@ -62,6 +76,23 @@ class ScansService(Service):
 
         return summaries
 
+    async def get_next_sequence(self,key: str) -> str:
+        counter = await Counter.find_one({"key": key})
+
+        if counter:
+            counter = await Counter.find_one_and_update(
+                Counter.key == key,
+                Inc({Counter.counter: 1}),
+                return_document=True
+            )
+        else:
+            counter = Counter(key=key, counter=1)
+            await counter.insert()
+
+        raw_value = f"{key}:{counter.counter}"
+        hashed = hashlib.sha256(raw_value.encode()).hexdigest()
+
+        return hashed
 
     async def fill_analysis(self, scan_id: str, analysis: AnalysisSchema) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -71,7 +102,7 @@ class ScansService(Service):
         scan.analysis = analysis
         await scan.save()
 
-        return ScanOut.model_validate(scan)
+        return ScanOut.model_validate(scan.model_dump())
     
     async def fill_logs(self, scan_id: str, log: LogEntrySchema) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -84,7 +115,7 @@ class ScansService(Service):
         scan.logs.append(log)
         await scan.save()
 
-        return ScanOut.model_validate(scan)
+        return ScanOut.model_validate(scan.model_dump())
     
     async def fill_ai_comment(self, scan_id: str, ai_comment: AICommentSchema) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -97,7 +128,7 @@ class ScansService(Service):
         scan.ai_comments.append(ai_comment)
         await scan.save()
 
-        return ScanOut.model_validate(scan)
+        return ScanOut.model_validate(scan.model_dump())
     
     async def get_analysis_with_rules(self, scan_id: str) -> AnalysisWithRulesResponse:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
@@ -106,7 +137,7 @@ class ScansService(Service):
         
         if not scan.analysis or not scan.analysis.warnings:
             return AnalysisWithRulesResponse(
-                analysis=AnalysisSchema.model_validate(scan.analysis),
+                analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
                 rules=[]
             )
 
@@ -116,6 +147,6 @@ class ScansService(Service):
         rules = await rules_service.get_rules_by_ids(rules_ids)
 
         return AnalysisWithRulesResponse(
-            analysis=AnalysisSchema.model_validate(scan.analysis),
-            rules=[RuleOut.model_validate(r) for r in rules]
+            analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
+            rules=[RuleOut.model_validate(r.model_dump()) for r in rules]
         )

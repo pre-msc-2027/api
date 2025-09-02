@@ -6,9 +6,9 @@ from src.exceptions import not_found
 
 router = APIRouter(prefix="/scans", tags=["scans"])
 
-@router.get("/summary/{user}", response_model=List[RepoSummary])
-async def get_user_repo_summary(user: str, service: ScansService = Depends(ScansService)):
-    return await service.get_user_repo_summaries(user)
+@router.get("/summary/{name}", response_model=List[RepoSummary])
+async def get_user_repo_summary(name: str, service: ScansService = Depends(ScansService)):
+    return await service.get_user_repo_summaries(name)
 
 @router.get("/{scan_id}", response_model=ScanOut)
 async def get_scan(scan_id: str, service: ScansService = Depends(ScansService)):

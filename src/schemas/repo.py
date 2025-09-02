@@ -13,7 +13,7 @@ class RepoRuleSchema(BaseModel):
 
 
 class RepoUserSchema(BaseModel):
-    id: str
+    user_id: str
     email: str
     name: Optional[str] = None
 

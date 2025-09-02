@@ -14,7 +14,7 @@ class RepoRule(BaseModel):
 
 
 class RepoUser(BaseModel):
-    id: str 
+    user_id: str
     email: str
     name: str | None
 

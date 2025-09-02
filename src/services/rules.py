@@ -15,13 +15,13 @@ class RulesService(Service):
         rule = await self.rules_repository.get_rule_by_id(rule_id)
         if rule is None:
             raise not_found.ObjectNotFoundError("rule", "rule_id", str(rule_id))
-        return RuleOut.model_validate(rule)
+        return RuleOut.model_validate(rule.model_dump())
 
     async def create_rule(self, rule_create: RuleCreate) -> RuleOut:
         
         rule_model = models.Rule(**rule_create.model_dump())
         created = await self.rules_repository.create(rule_model)
-        return RuleOut.model_validate(created)
+        return RuleOut.model_validate(created.model_dump())
 
     async def get_rules_by_ids(self, rule_ids: List[int]) -> List[models.Rule]:
         return await self.rules_repository.get_by_ids(rule_ids)

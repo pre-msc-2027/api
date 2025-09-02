@@ -79,16 +79,22 @@ class AICommentSchema(BaseModel):
     original: str
     fixed: str
 
-class ScanCreate(BaseModel):
+
+class ScanBase(BaseModel):
     project_name: str
     scanned_by: str
     scan_options: ScanOptionsSchema
     scan_version: str
     auth_context: Optional[AuthContextSchema] = None
     notes: Optional[str] = None
+    token: str = None
+
+class ScanCreate(ScanBase):
+    token: str = None
 
 
-class ScanOut(ScanCreate):
+
+class ScanOut(ScanBase):
     scan_id: str
     timestamp: datetime
     analysis: Optional[AnalysisSchema] = None
