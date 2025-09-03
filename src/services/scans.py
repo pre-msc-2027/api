@@ -138,6 +138,8 @@ class ScansService(Service):
         if not scan.analysis or not scan.analysis.warnings:
             return AnalysisWithRulesResponse(
                 repo_url=scan.scan_options.repo_url,
+                analysis= None,
+                rules= None
             )
 
         rules_ids = list({w["rules_id"] for w in scan.analysis["warnings"] if "rules_id" in w})
