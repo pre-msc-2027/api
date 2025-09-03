@@ -21,6 +21,7 @@ class RepoUserSchema(BaseModel):
 class RepoBase(BaseModel):
     user: RepoUserSchema
     repo_url: str
+    branches_id: List[str]
     rules: List[RepoRuleSchema]
 
 

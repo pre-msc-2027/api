@@ -72,7 +72,7 @@ class ScansService(Service):
                 )
                 for scan in scans
             ]
-            summaries.append(RepoSummary(repo_url=repo.repo_url, analyses=analyses))
+            summaries.append(RepoSummary(repo_url=repo.repo_url, branches_id=repo.branches_id, analyses=analyses))
 
         return summaries
 
@@ -137,9 +137,7 @@ class ScansService(Service):
         
         if not scan.analysis or not scan.analysis.warnings:
             return AnalysisWithRulesResponse(
-                repo_url=scan.scanoptions.repo_url,
-                analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
-                rules=[]
+                repo_url=scan.scan_options.repo_url,
             )
 
         rules_ids = list({w["rules_id"] for w in scan.analysis["warnings"] if "rules_id" in w})
@@ -148,7 +146,7 @@ class ScansService(Service):
         rules = await rules_service.get_rules_by_ids(rules_ids)
 
         return AnalysisWithRulesResponse(
-            repo_url=scan.scanoptions.repo_url,
+            repo_url=scan.scan_options.repo_url,
             analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
             rules=[RuleOut.model_validate(r.model_dump()) for r in rules]
         )
