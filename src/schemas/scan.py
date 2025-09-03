@@ -73,6 +73,7 @@ class AnalysisSummaryItem(BaseModel):
 
 class RepoSummary(BaseModel):
     repo_url: str
+    branches_id: List[str]
     analyses: List[AnalysisSummaryItem]
 
 class AICommentSchema(BaseModel):

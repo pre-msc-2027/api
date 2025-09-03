@@ -8,13 +8,12 @@ router = APIRouter(prefix="/rules", tags=["rules"])
 
 @router.get("/", response_model=List[RuleOut])
 async def get_all_rules(service: RulesService = Depends(RulesService)):
-    rule_ids = await service.get_all_rules()
-    rules = [await service.get_rule(rid) for rid in rule_ids]
+    rules = await service.get_all_rules()
     return rules
 
 @router.get("/by_scan/{scan_id}", response_model=List[RuleOut])
-async def get_rules_by_scan(service: RulesService = Depends(RulesService)):
-    rule_ids = await service.get_rules_by_scan()
+async def get_rules_by_scan(scan_id: str, service: RulesService = Depends(RulesService)):
+    rule_ids = await service.get_rules_by_scan(scan_id)
     rules = [await service.get_rule(rid) for rid in rule_ids]
     return rules
 

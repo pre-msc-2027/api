@@ -8,14 +8,14 @@ class RulesRepository(Repository):
     def __init__(self):
         super().__init__(Rule)
 
-    async def get_rule_by_id(self, rule_id: int) -> Optional[Rule]:
+    async def get_rule_by_id(self, rule_id: str) -> Optional[Rule]:
         return await Rule.find_one(Rule.rule_id == rule_id)
 
     async def create(self, rule: Rule) -> Rule:
         await rule.insert()
         return rule
 
-    async def get_by_ids(self, ids: List[int]):
+    async def get_by_ids(self, ids: List[str]):
         return await Rule.find(Rule.rule_id.in_(ids)).to_list()
 
     async def get_all(self):

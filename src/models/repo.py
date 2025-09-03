@@ -22,6 +22,7 @@ class RepoUser(BaseModel):
 class Repo(Document):
     user: RepoUser
     repo_url: str
+    branches_id: List[str]
     rules: List[RepoRule]
 
     class Settings:
