@@ -30,6 +30,7 @@ async def create_scan(scan: ScanCreate, service: ScansService = Depends(ScansSer
 
 @router.post("/logs/{scan_id}", response_model=ScanOut, status_code=201)
 async def fill_analysis(scan_id: str, logs: LogEntrySchema, service: ScansService = Depends(ScansService)):
+    print("📥 Received logs:", logs.model_dump())
     return await service.fill_logs(scan_id, logs)
 
 @router.post("/ai_comment/{scan_id}", response_model=ScanOut, status_code=201)
