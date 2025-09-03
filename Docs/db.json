@@ -19,9 +19,13 @@
     "type": "object",
     "description": "Paramètres de configuration du scan",
     "properties": {
-        "repo_url": {
+      "repo_url": {
         "type": "string",
         "description": "Nom ou URL du dépôt "
+      },
+      "rules_id": {
+        "type": "array[string]",
+        "description": "Liste des rules cochées par l'utilisateur"
       },
       "use_ai_assistance": {
         "type": "boolean",
