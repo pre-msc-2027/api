@@ -5,5 +5,5 @@ from src.schemas.rule import RuleOut
 
 class AnalysisWithRulesResponse(BaseModel):
     repo_url: str
-    analysis: Optional[AnalysisSchema]
-    rules: Optional[List[RuleOut]]
+    analysis: Optional[AnalysisSchema] = None
+    rules: Optional[List[RuleOut]] = None
