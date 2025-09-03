@@ -23,12 +23,8 @@
     "description": "URL du dépôt Git analysé"
   },
   "branches_id": {
-    "type": "array",
+    "type": "array[string]",
     "description": "ID des branches du repo",
-    "items": {
-          "type": "string",
-          "description": "ID d'une branche"
-    }
   }
   "rules": {
     "type": "array",
