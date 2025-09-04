@@ -15,6 +15,7 @@ class Rule(Document):
     rule_id: str
     name: str
     slang: str
+    language: str
     description: Optional[str] = None
     tags: List[str] = []
     parameters: List[RuleParameter] = []
