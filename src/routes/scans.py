@@ -47,3 +47,10 @@ async def get_analysis_with_rules(scan_id: str, service: ScansService = Depends(
         return await service.get_analysis_with_rules(scan_id)
     except not_found.ObjectNotFoundError as e:
         raise e.get_response()
+    
+@router.get("/analyse/{scan_id}", response_model=AnalysisSchema)
+async def get_analysis(scan_id: str, service: ScansService = Depends(ScansService)):
+    try:
+        return await service.get_analysis(scan_id)
+    except not_found.ObjectNotFoundError as e:
+        raise e.get_response()

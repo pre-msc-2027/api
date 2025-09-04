@@ -142,7 +142,7 @@ class ScansService(Service):
                 rules= None
             )
 
-        rules_ids = list({w["rules_id"] for w in scan.analysis["warnings"] if "rules_id" in w})
+        rules_ids = list({w.rule_id for w in scan.analysis.warnings})
 
         rules_service = RulesService()
         rules = await rules_service.get_rules_by_ids(rules_ids)
@@ -152,3 +152,10 @@ class ScansService(Service):
             analysis=AnalysisSchema.model_validate(scan.analysis.model_dump()),
             rules=[RuleOut.model_validate(r.model_dump()) for r in rules]
         )
+    
+    async def get_analysis(self, scan_id: str) -> AnalysisSchema:
+        scan = await self.scans_repository.get_scan_by_id(scan_id)
+        if not scan or not scan.analysis:
+            raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
+        else :
+            return AnalysisSchema.model_validate(scan.analysis.model_dump())

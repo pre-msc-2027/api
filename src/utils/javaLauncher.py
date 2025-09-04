@@ -13,6 +13,6 @@ async def run_java_process(scan_id: str, token: str):
 
     if process.returncode != 0:
         
-        print(f"Erreur Java : {stderr.decode()}")
+        print(f"Erreur Java : {stderr.decode('cp1252')}")
     else:
         print(f"Résultat Java : {stdout.decode()}")

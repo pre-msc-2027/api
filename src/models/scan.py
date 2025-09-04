@@ -63,7 +63,7 @@ class AuthContext(BaseModel):
     session_id: str
 
 class LogEntry(BaseModel):
-    timestamp: float
+    timestamp: str 
     message: str
     error: Optional[str] = None
 
