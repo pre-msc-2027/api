@@ -26,5 +26,7 @@ app.include_router(rules.router)
 app.include_router(scans.router)
 app.include_router(repos.router)
 
+from src.schemas.scan import LogEntrySchema
+
 def start():
-    uvicorn.run(app,host= '0.0.0.0',  port= 8001)
+    uvicorn.run(app,host= '0.0.0.0',  port= 8001, log_level="debug")
