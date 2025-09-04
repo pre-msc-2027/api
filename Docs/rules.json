@@ -7,6 +7,10 @@
     "type": "string",
     "description": "Nom de la règle"
   },
+  "language": {
+    "type": "string",
+    "description": "Langage utilisé"
+  },
   "slang": {
     "type": "string",
     "description": "Définition de la règle"
