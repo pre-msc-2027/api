@@ -1,7 +1,7 @@
 from src.generics import Repository
 from typing import Optional, List
 from src.models.rule import Rule
-
+from beanie.operators import In
 
 class RulesRepository(Repository):
 
@@ -16,7 +16,7 @@ class RulesRepository(Repository):
         return rule
 
     async def get_by_ids(self, ids: List[str]):
-        return await Rule.find(Rule.rule_id.in_(ids)).to_list()
+        return await Rule.find(In(Rule.rule_id, ids)).to_list()
 
     async def get_all(self):
         return await Rule.find_all().to_list()
