@@ -13,6 +13,7 @@ class RuleParameterSchema(BaseModel):
 class RuleBase(BaseModel):
     rule_id: str
     name: str
+    slang: str
     description: Optional[str] = None
     tags: List[str] = []
     parameters: List[RuleParameterSchema] = []

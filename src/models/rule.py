@@ -14,6 +14,7 @@ class RuleParameter(BaseModel):
 class Rule(Document):
     rule_id: str
     name: str
+    slang: str
     description: Optional[str] = None
     tags: List[str] = []
     parameters: List[RuleParameter] = []
