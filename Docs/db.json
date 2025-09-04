@@ -238,7 +238,7 @@
       "type": "object",
       "properties": {
         "timestamp": {
-          "type": "int",
+          "type": "string",
           "description": "Horodatage du log"
         },
         "message": {
