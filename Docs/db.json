@@ -134,7 +134,7 @@
               "description": "Numéro de ligne de la vulnérabilité"
             },
             "rule_id": {
-              "type": "int",
+              "type": "string",
               "description": "Id de la règle"
             },
             "id":{
