@@ -28,7 +28,7 @@ class Vulnerability(BaseModel):
 class Warning(BaseModel):
     file: str
     line: int
-    rule_id: int
+    rule_id: str
     id: int
 
 class AnalysisSummary(BaseModel):
