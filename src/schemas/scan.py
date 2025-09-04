@@ -62,7 +62,7 @@ class AuthContextSchema(BaseModel):
     session_id: str
 
 class LogEntrySchema(BaseModel):
-    timestamp: int  
+    timestamp: str  
     message: str
     error: Optional[str] = None
 
