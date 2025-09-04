@@ -31,7 +31,8 @@ class RulesService(Service):
 
     async def get_rules_by_scan(self, scan_id: str) -> List[models.Rule]:
         from .scans import ScansService
-        scan = await ScansService.scans_repository.get_scan_by_id(scan_id)
+        scans_service = ScansService()
+        scan = await scans_service.get_scan_by_id(scan_id)
         if not scan:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
         rules_ids = scan.scan_options.rules_id
