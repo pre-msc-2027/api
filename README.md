@@ -316,6 +316,10 @@ Retourne une règle précise par son identifiant.
 
 Crée une règle personnalisée. Corps attendu : même format
 
+#### `POST /rules/modif_param/{rule_id}`
+
+Modifie les paramètres d'une rule. Corps attendu : parameters
+
 ---
 
 # Documentation Base de Données (MongoDB Atlas)
