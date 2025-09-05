@@ -117,15 +117,12 @@ class ScansService(Service):
 
         return ScanOut.model_validate(scan.model_dump())
     
-    async def fill_ai_comment(self, scan_id: str, ai_comment: AICommentSchema) -> ScanOut:
+    async def fill_ai_comment(self, scan_id: str, ai_comments: List[AICommentSchema]) -> ScanOut:
         scan = await self.scans_repository.get_scan_by_id(scan_id)
         if scan is None:
             raise not_found.ObjectNotFoundError("scan", "scan_id", scan_id)
 
-        if scan.ai_comments is None:
-            scan.ai_comments = []
-
-        scan.ai_comments.append(ai_comment)
+        scan.ai_comments = ai_comments
         await scan.save()
 
         return ScanOut.model_validate(scan.model_dump())
