@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from src.schemas import RuleCreate, RuleOut 
+from src.schemas import RuleCreate, RuleOut, RuleParameterSchema 
 from src.services import RulesService
 from src.exceptions import not_found
 
@@ -27,3 +27,7 @@ async def get_rule(rule_id: str, service: RulesService = Depends(RulesService)):
 @router.post("/", response_model=RuleOut, status_code=201)
 async def create_rule(rule: RuleCreate, service: RulesService = Depends(RulesService)):
     return await service.create_rule(rule)
+
+@router.post("/modif_param/{rule_id}", response_model=RuleOut, status_code=201)
+async def create_rule(rule_id: str, modifParam: List[RuleParameterSchema], service: RulesService = Depends(RulesService)):
+    return await service.modif_param(rule_id, modifParam)

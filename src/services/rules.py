@@ -1,7 +1,7 @@
 from src.repositories.rules import RulesRepository
 from src.generics import Service
 from src.exceptions import not_found
-from src.schemas.rule import RuleCreate, RuleOut
+from src.schemas.rule import RuleCreate, RuleOut, RuleParameterSchema
 from src import models
 from typing import List
 
@@ -38,3 +38,15 @@ class RulesService(Service):
         else :
             rules_ids = scan_options.rules_id
             return rules_ids
+        
+        
+    async def modif_param(self, rule_id: str, modifParam: List[RuleParameterSchema]) -> RuleOut:
+        rule = await self.rules_repository.get_rule_by_id(rule_id)
+        if rule is None:
+            raise not_found.ObjectNotFoundError("rule", "rule_id", rule_id)
+
+        rule.parameters = modifParam
+        await rule.save()
+
+        return RuleOut.model_validate(rule.model_dump())
+    
