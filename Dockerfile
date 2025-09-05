@@ -24,6 +24,8 @@ RUN curl -v https://github.com/pre-msc-2027/analyser/releases/download/1.1.2/ana
 # Copie les scripts d'ia
 COPY ../ /code/ai
 
+ENV AI_DIRECTORY_PATH=/code/ai
+
 RUN python3.13 -m pip install -r /code/requirements.txt
 
 COPY . /code/
