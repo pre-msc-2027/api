@@ -2,8 +2,8 @@ import requests
 
 url = "http://localhost:8001/rules/"
 payload = {
-    "rule_id": "1",
-    "name": "Unused class in html",       # <-- required
+    "rule_id": "0",
+    "name": "Casing html",       # <-- required
     "language": "html",
     "slang": "html_rule",             # <-- required
     "tags": [],
